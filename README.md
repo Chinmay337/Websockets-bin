@@ -30,8 +30,6 @@ cargo build
 
 ## Production
 
-<br/>
-
 - Deploy binaries to globally distributed servers.
 
 - Use `Georouting` based off of `DNS` or `IP Header Information` to route to nearest Server for `Lowest Latency` and `Optimal Performance`
