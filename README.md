@@ -26,8 +26,6 @@ cargo build
 # Deploy Binaries to Servers
 ```
 
-<br/>
-
 ## Production
 
 - Deploy binaries to globally distributed servers.
