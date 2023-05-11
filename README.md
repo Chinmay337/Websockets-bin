@@ -33,3 +33,10 @@ cargo build
 - Use `Georouting` based off of `DNS` or `IP Header Information` to route to nearest Server for `Lowest Latency` and `Optimal Performance`
 
 - Use existing Client code in `ws-client/` as a starting point for your WebSockets applications to build on top of.
+
+## Docker
+
+```bash
+$ docker build -t ws-server-rs .
+docker run -p 9001:9001 ws-server-rs
+```
