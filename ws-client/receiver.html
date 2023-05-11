@@ -115,6 +115,12 @@
           document
             .getElementById("connectButton")
             .classList.add("disconnected");
+
+          // remove all children from messagesList once disconnected
+          const messagesList = document.getElementById("messagesList");
+          while (messagesList.firstChild) {
+            messagesList.removeChild(messagesList.firstChild);
+          }
         });
 
         socket.addEventListener("error", (event) => {

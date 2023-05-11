@@ -77,13 +77,17 @@
 
       function setupWebSocket() {
         console.log("Attempting to connect to WebSocket server...");
+        userName = document.getElementById("nameInput").value; // Get the name entered by the user
 
         // Ensure this matches the server's listening address
         socket = new WebSocket("ws://127.0.0.1:9001");
 
         socket.addEventListener("open", (event) => {
           console.log("WebSocket connection opened:", event);
-          socket.send("Hello, server!");
+          // socket.send("Hello, server!");
+          socket.send(JSON.stringify({ type: "name", user_name: userName }));
+
+          document.getElementById("messageArea").style.opacity = "1";
           document.getElementById("connectButton").textContent = "Disconnect";
           document.getElementById("status").classList.add("connected");
           document.getElementById("connectButton").classList.add("connected");
@@ -94,6 +98,7 @@
 
         socket.addEventListener("close", (event) => {
           console.log("WebSocket connection closed:", event);
+          document.getElementById("messageArea").style.opacity = "0.4";
           document.getElementById("connectButton").textContent = "Connect";
           document.getElementById("status").classList.remove("connected");
           document
@@ -135,7 +140,8 @@
         const message = messageInput.value;
 
         if (socket && message) {
-          socket.send(message);
+          socket.send(JSON.stringify({ type: "message", content: message }));
+
           messageInput.value = "";
         } else {
           console.error(
@@ -144,7 +150,19 @@
         }
       }
 
+      function getLastMessages() {
+        // Here, you would usually make a request to the server to get the last 5 messages
+        // However, this is not implemented in your server's code
+        // Instead, you could print a message to the console
+        console.log("Getting last 5 messages...");
+      }
+
       function toggleConnection() {
+        if (document.getElementById("nameInput").value == "") {
+          alert("Please enter a username before Connecting!");
+          return;
+        }
+
         if (socket && socket.readyState === WebSocket.OPEN) {
           socket.close();
         } else {
@@ -157,13 +175,30 @@
     <h1>WebSocket Sender</h1>
     <div>Connect to the Server and begin sending messages.</div>
 
-    <button id="connectButton" onclick="toggleConnection()">Connect</button>
+    <h2>User Name</h2>
+    <div style="display: flex; flex-direction: column">
+      <input
+        type="text"
+        id="nameInput"
+        placeholder="Enter your name"
+        style="width: 14rem"
+      />
 
-    <h2>Send Message</h2>
-    <form onsubmit="event.preventDefault(); sendMessage();">
-      <input type="text" id="messageInput" placeholder="Type your message" />
-      <button type="submit">Send</button>
-    </form>
+      <button
+        id="connectButton"
+        onclick="toggleConnection()"
+        style="width: 8rem"
+      >
+        Connect
+      </button>
+    </div>
+    <div id="messageArea" style="opacity: 0.4">
+      <h2>Send Message</h2>
+      <form onsubmit="event.preventDefault(); sendMessage();">
+        <input type="text" id="messageInput" placeholder="Type your message" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
 
     <div id="status" class="status">
       <span class="status-dot"></span> Connection Status
