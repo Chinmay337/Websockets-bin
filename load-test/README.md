@@ -1,5 +1,9 @@
 # k6
 
+## Running Load Test
+
+- `k6 run ws-load-test.js`
+
 ## Setup
 
 - `brew install k6`
@@ -18,7 +22,3 @@ websocat ws://localhost:9001
 
 
 ```
-
-## Running Load Test
-
-- `k6 run ws-load-test.js`
